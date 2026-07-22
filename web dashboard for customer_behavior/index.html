@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Shopping Behavior Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Customer Intelligence</p>
+        <h1>Shopping Behavior Analytics</h1>
+        <p class="summary-text">A data-driven dashboard built from the customer purchase dataset, spotlighting revenue drivers, subscription impact, shipping performance, and product insights.</p>
+      </div>
+      <div class="topbar-meta">
+        <span>Data source: <strong>customer_shopping_behavior.csv</strong></span>
+        <span>Records: <strong id="summary-count">–</strong></span>
+      </div>
+    </header>
+
+    <!-- Top KPI Metrics -->
+    <section class="metric-grid" id="metric-cards">
+      <article class="metric-card glow-blue">
+        <span class="metric-label">Total Customers</span>
+        <h2 id="metric-total-customers">–</h2>
+      </article>
+      <article class="metric-card glow-green">
+        <span class="metric-label">Total Revenue</span>
+        <h2 id="metric-total-revenue">–</h2>
+      </article>
+      <article class="metric-card glow-orange">
+        <span class="metric-label">Average Purchase</span>
+        <h2 id="metric-average-purchase">–</h2>
+      </article>
+      <article class="metric-card glow-purple">
+        <span class="metric-label">Discount Usage</span>
+        <h2 id="metric-discount-rate">–</h2>
+      </article>
+      <article class="metric-card glow-pink highlight-card">
+        <span class="metric-label">🔍 High Spenders on Discount</span>
+        <h2 id="metric-discount-high-spenders">–</h2>
+        <span class="metric-sub">Customers who used a discount & spent above avg</span>
+      </article>
+    </section>
+
+    <!-- Revenue Mix Section -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Revenue Mix</p>
+          <h2>Revenue by segment</h2>
+        </div>
+        <p class="section-note">Compare gender, subscription status, and shipping revenue to see where growth is strongest.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Revenue by Gender</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-gender"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Revenue by Subscription</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-subscription"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Revenue by Shipping Type</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-shipping"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demographics Section (NEW - from Q10) -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Demographics</p>
+          <h2>Revenue by age group</h2>
+        </div>
+        <p class="section-note">Understand which age segments drive the most revenue and how their spending patterns differ.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card chart-card-wide">
+          <h3>Age Group Revenue Distribution</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-age-group"></canvas></div>
+        </div>
+        <div class="chart-card chart-card-narrow">
+          <h3>Age Group Share</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-age-donut"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Insights Section -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Product Insights</p>
+          <h2>Top items and discount leaders</h2>
+        </div>
+        <p class="section-note">Understand which products sell most frequently, earn the most revenue, and benefit from the highest discount adoption.</p>
+      </div>
+      <div class="metrics-row">
+        <article class="insight-card">
+          <h3>Top selling products</h3>
+          <ol id="top-products-list" class="insight-list"></ol>
+        </article>
+        <article class="insight-card">
+          <h3>Highest discount rates</h3>
+          <ol id="top-discount-list" class="insight-list"></ol>
+        </article>
+        <article class="insight-card">
+          <h3>Highest avg review rating</h3>
+          <ol id="top-rating-list" class="insight-list"></ol>
+        </article>
+      </div>
+    </section>
+
+    <!-- Category Deep Dive Section (NEW - from Q8) -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Category Deep Dive</p>
+          <h2>Top products per category</h2>
+        </div>
+        <p class="section-note">Breakdown of the top 3 most purchased products within each category to identify category leaders.</p>
+      </div>
+      <div class="chart-canvas-wrapper chart-canvas-full">
+        <canvas id="chart-category-products"></canvas>
+      </div>
+    </section>
+
+    <!-- Customer Behavior Section -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Customer Behavior</p>
+          <h2>Buyer frequency and payments</h2>
+        </div>
+        <p class="section-note">Track repeat purchase frequency and payment preferences to identify the strongest customer touchpoints.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Purchase Frequency</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-frequency"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Payment Method Preference</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-payment"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Customer Segments</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-segments"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subscription Behavior Section (NEW - from Q9) -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Subscription Behavior</p>
+          <h2>Repeat buyers & subscription adoption</h2>
+        </div>
+        <p class="section-note">Are repeat buyers (5+ purchases) more likely to subscribe? This analysis uncovers the relationship between loyalty and membership.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card chart-card-wide">
+          <h3>Repeat Buyers by Subscription Status</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-repeat-subscription"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Repeat Buyers Ratio</h3>
+          <div class="chart-canvas-wrapper"><canvas id="chart-repeat-ratio"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seasonal Sales Section (NEW - Line Chart) -->
+    <section class="section-block">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Seasonal Trends</p>
+          <h2>Sales performance by season</h2>
+        </div>
+        <p class="section-note">Track how revenue and order volume fluctuate across Winter, Spring, Summer, and Fall — revealing peak sales periods and seasonal opportunities.</p>
+      </div>
+      <div class="chart-canvas-wrapper chart-canvas-full">
+        <canvas id="chart-seasonal-sales"></canvas>
+      </div>
+    </section>
+
+    <!-- Executive Summary Section -->
+    <section class="section-block section-content">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Executive Summary</p>
+          <h2>Business takeaways</h2>
+        </div>
+      </div>
+      <div class="summary-cards">
+        <article class="summary-card">
+          <h4>Revenue leader</h4>
+          <p id="insight-category">Loading...</p>
+        </article>
+        <article class="summary-card">
+          <h4>Subscriber impact</h4>
+          <p id="insight-subscription">Loading...</p>
+        </article>
+        <article class="summary-card">
+          <h4>Discount strategy</h4>
+          <p id="insight-discount">Loading...</p>
+        </article>
+        <article class="summary-card">
+          <h4>Age group opportunity</h4>
+          <p id="insight-age-group">Loading...</p>
+        </article>
+        <article class="summary-card">
+          <h4>Category performance</h4>
+          <p id="insight-category-performance">Loading...</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>Dashboard generated from <strong>customer_shopping_behavior.csv</strong> • Powered by Chart.js</p>
+    </footer>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>

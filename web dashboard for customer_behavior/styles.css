@@ -1,0 +1,323 @@
+:root {
+  --bg: #0d1622;
+  --surface: #152237;
+  --surface-alt: #1e2a3d;
+  --text: #f6f8fb;
+  --muted: #9bb0c7;
+  --accent: #5dc4ff;
+  --accent-2: #ff9c5d;
+  --success: #25d07a;
+  --warning: #f0b429;
+  --purple: #a78bfa;
+  --pink: #f472b6;
+  --border: rgba(255,255,255,.08);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+  --card-radius: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top, rgba(93, 196, 255, .12), transparent 28%),
+              radial-gradient(circle at 20% 15%, rgba(255, 156, 93, .1), transparent 15%),
+              var(--bg);
+  min-height: 100vh;
+}
+
+.page-shell {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+/* ── Topbar ── */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 28px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: rgba(15, 24, 37, 0.88);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.5vw, 3rem);
+  line-height: 1.28;
+  background: linear-gradient(135deg, var(--text) 60%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.summary-text {
+  max-width: 620px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.topbar-meta {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* ── Base grids ── */
+.metric-grid,
+.chart-grid,
+.metrics-row,
+.summary-cards {
+  display: grid;
+  gap: 20px;
+}
+
+.metric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin: 28px 0;
+}
+
+/* ── Cards ── */
+.metric-card,
+.chart-card,
+.insight-card,
+.summary-card,
+.section-block {
+  background: rgba(20, 30, 45, 0.96);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover,
+.chart-card:hover,
+.insight-card:hover,
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.metric-card {
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.metric-card:hover::before {
+  opacity: 1;
+}
+
+/* Glow accents per metric card */
+.glow-blue::before { background: linear-gradient(90deg, #5dc4ff, #3b82f6); }
+.glow-green::before { background: linear-gradient(90deg, #25d07a, #10b981); }
+.glow-orange::before { background: linear-gradient(90deg, #ff9c5d, #f59e0b); }
+.glow-purple::before { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
+.glow-pink::before { background: linear-gradient(90deg, #f472b6, #ec4899); }
+
+.highlight-card {
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.08), rgba(236, 72, 153, 0.04));
+  border-color: rgba(244, 114, 182, 0.2);
+}
+
+.metric-label {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.metric-sub {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.metric-card h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+/* ── Section blocks ── */
+.section-block {
+  padding: 26px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.section-note {
+  margin: 0;
+  color: var(--muted);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.chart-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.chart-card,
+.insight-card {
+  padding: 22px;
+}
+
+.chart-card-wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 780px) {
+  .chart-card-wide { grid-column: span 1; }
+}
+
+.chart-card h3,
+.insight-card h3,
+.summary-card h4 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Chart canvas container ── */
+.chart-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+}
+
+.chart-canvas-wrapper canvas {
+  width: 100% !important;
+  max-height: 320px;
+}
+
+.chart-canvas-full {
+  min-height: 380px;
+}
+
+.chart-canvas-full canvas {
+  max-height: 420px;
+}
+
+/* ── Insight list ── */
+.insight-card {
+  min-height: 260px;
+}
+
+.insight-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+}
+
+.insight-list li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.insight-list li::marker {
+  color: var(--accent);
+}
+
+.metrics-row {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* ── Summary ── */
+.summary-cards {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.summary-card {
+  padding: 22px;
+  border-left: 3px solid var(--accent);
+}
+
+.summary-card:nth-child(2) { border-left-color: var(--accent-2); }
+.summary-card:nth-child(3) { border-left-color: var(--success); }
+.summary-card:nth-child(4) { border-left-color: var(--purple); }
+.summary-card:nth-child(5) { border-left-color: var(--pink); }
+
+.summary-card p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 0.93rem;
+}
+
+/* ── Footer ── */
+.dashboard-footer {
+  margin-top: 32px;
+  padding: 16px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  opacity: 0.7;
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .page-shell {
+    padding: 20px 16px 32px;
+  }
+  .topbar {
+    padding: 22px;
+  }
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+  .metric-card h2 {
+    font-size: 1.8rem;
+  }
+}
