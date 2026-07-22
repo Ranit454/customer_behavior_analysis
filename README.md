@@ -6,6 +6,10 @@ The project demonstrates the complete analytics workflow—from raw CSV data to 
 
 ---
 
+## 🌐 Live Dashboard
+
+**Click here:** https://customer-behavior-analytics.netlify.app/
+
 ## 📌 Project Overview
 
 This project analyzes customer shopping behavior to uncover purchasing patterns, customer demographics, subscription trends, product performance, seasonal sales, and revenue distribution.
